@@ -1,9 +1,10 @@
 import java.util.Arrays;
-import java.util.Scanner;
 /**
- * T1: C = A-B*(MA*MC)*e
- * T2: MF = MF*MG*k
- * T3: O = sort(P)*(MR*MT)
+ *
+ *
+ * T1: MC = MIN(A) * (MA * MD)
+ * T2: MF = k*MG - h*MK*ML
+ * T3: O = TRANS(MP*MR)*V
  *
  */
 public class Data {
@@ -17,26 +18,6 @@ public class Data {
         this.n = n;
     }
 
-    public int[] vectorInput() {
-        int[] vector = new int[n];
-        Scanner sc = new Scanner(System.in);
-        for (int i = 0; i < n ; i++){
-            vector[i] = sc.nextInt();
-        }
-        return vector;
-    }
-
-    public int[][] matrixInput() {
-        int[][] matrix = new int[n][n];
-        Scanner sc = new Scanner(System.in);
-        for (int i = 0; i < n ; i++){
-            for (int j = 0; j < n ;
-                 j++){
-                matrix[i][j] = sc.nextInt();
-            }
-        }
-        return matrix;
-    }
 
     public int[] func3(int[][] MP, int[][] MR, int[] V) {
         return vectorMatrixMult(V, matrixTrans(matrixMult(MP, MR)));
@@ -129,16 +110,6 @@ public class Data {
         return c;
     }
 
-    private int[] vectorMult(int[] a, int[] b) {
-        if (b.length !=n || a.length != n) {
-            return null;
-        }
-        int[] c = new int[n];
-        for (int i = 0; i < n ; i++){
-            c[i] = a[i] * b[i];
-        }
-        return c;
-    }
 
     private int[][] matrixMult(int[][] ma, int[][] mb) {
         if (ma.length != n || mb.length != n) {
@@ -151,14 +122,6 @@ public class Data {
                     c[i][j] += ma[i][k] * mb[k][j];
                 }
             }
-        }
-        return c;
-    }
-
-    private int[] intVectorMult(int a, int[] b) {
-        int[] c = new int[n];
-        for (int i = 0; i < n ; i++){
-            c[i] = a * b[i];
         }
         return c;
     }
@@ -186,18 +149,6 @@ public class Data {
         return res;
     }
 
-    private int[][] matrixSort(int[][] a){
-        if (a.length != n) {
-            return null;
-        }
-        int[][] c = new int[a.length][a[0].length];
-        for (int i = 0; i < c.length; i++){
-            c[i] = vectorSort(a[i]);
-        }
-
-        return c;
-
-    }
 }
 
 

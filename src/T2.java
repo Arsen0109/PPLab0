@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * T2: MF = k*MG - h*MK*ML
@@ -7,8 +8,8 @@ import java.util.Random;
 public class T2 extends Thread {
     int h, k;
     int[][] ML, MG, MK;
-    private int[][] result;
-    private Data d;
+    public int[][] result;
+    public Data d;
 
     T2(String name, int priority, Data d) {
         setName(name);
@@ -21,22 +22,36 @@ public class T2 extends Thread {
         try {
             System.out.println("Task 2 start");
             int n = d.getN();
-            int[][] ML = new int [n][n], MG = new int[n][n], MK = new int[n][n];
-            int k, h;
+            ML = new int [n][n];
+            MG = new int[n][n];
+            MK = new int[n][n];
             int max = 10;
-            k = new Random().nextInt(max);
-            h = new Random().nextInt(max);
-            for(int i = 0; i < n; i++){
-                for (int j = 0; j < n; j++){
-                    ML[i][j] = new Random().nextInt(max);
-                    MG[i][j] = new Random().nextInt(max);
-                    MK[i][j] = new Random().nextInt(max);
+            if (n > 4){
+                k = new Random().nextInt(max);
+                h = new Random().nextInt(max);
+                for(int i = 0; i < n; i++){
+                    for (int j = 0; j < n; j++){
+                        ML[i][j] = new Random().nextInt(max);
+                        MG[i][j] = new Random().nextInt(max);
+                        MK[i][j] = new Random().nextInt(max);
 
+                    }
                 }
+            }else {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Enter k: ");
+                k = scanner.nextInt();
+                System.out.println("Enter h: ");
+                h = scanner.nextInt();
+                MG = matrixInput(n, "MG");
+                MK = matrixInput(n, "MK");
+                ML = matrixInput(n, "ML");
+
             }
+
             result = d.func2(k, h, MG, MK, ML);
+            sleep(200);
             printMatr(result, "MF");
-            sleep(250);
             System.out.println("Task 2 end");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -54,5 +69,17 @@ public class T2 extends Thread {
             }
             System.out.println("]");
         }
+    }
+    public int[][] matrixInput(int n, String name) {
+        int[][] matrix = new int[n][n];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i < n ; i++){
+            for (int j = 0; j < n ;
+                 j++){
+                System.out.printf("Input matrix element #[%d][%d] in matrix %s%n", i, j, name);
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+        return matrix;
     }
 }

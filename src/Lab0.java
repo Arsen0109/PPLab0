@@ -10,7 +10,7 @@
  * T3: O = TRANS(MP*MR)*V
  */
 
-public class Lab0 extends Thread {
+public class Lab0 extends Thread{
 
     public static void main(String[] args) {
         (new Lab0()).start();
@@ -24,7 +24,9 @@ public class Lab0 extends Thread {
         Data data = new Data(n);
         T1 t1 = new T1("T1", Thread.MAX_PRIORITY, data);
         T2 t2 = new T2("T2", Thread.NORM_PRIORITY, data);
-        T3 t3 = new T3("T3", Thread.MIN_PRIORITY, data);
+        Thread t3 = new Thread(new T3(data));
+        t3.setName("T3");
+        t3.setPriority(Thread.MIN_PRIORITY);
         t1.start();
         t2.start();
         t3.start();

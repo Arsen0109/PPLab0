@@ -1,18 +1,19 @@
 import java.util.Random;
+import java.util.Scanner;
+
+import static java.lang.Thread.sleep;
 
 /**
  * T3: O = TRANS(MP*MR)*V
  */
 
-public class T3 extends Thread {
+public class T3 implements Runnable {
     int[] V;
     int[][] MP, MR;
-    private int[] result;
-    private Data d;
+    public int[] result;
+    public Data d;
 
-    T3(String name, int priority, Data d) {
-        setName(name);
-        setPriority(priority);
+    T3(Data d) {
         this.d = d;
     }
 
@@ -21,16 +22,24 @@ public class T3 extends Thread {
         try {
             System.out.println("Task 3 start");
             int n = d.getN();
-            int[] V = new int[n];
-            int[][] MR = new int [n][n], MP = new int[n][n];
+            V = new int[n];
+            MR = new int [n][n];
+            MP = new int[n][n];
             int max = 10;
-            for(int i = 0; i < n; i++){
-                V[i] = new Random().nextInt(max);
-                for (int j = 0; j < n; j++){
-                    MR[i][j] = new Random().nextInt(max);
-                    MP[i][j] = new Random().nextInt(max);
+            if (n > 4){
+                for(int i = 0; i < n; i++){
+                    V[i] = new Random().nextInt(max);
+                    for (int j = 0; j < n; j++){
+                        MR[i][j] = new Random().nextInt(max);
+                        MP[i][j] = new Random().nextInt(max);
+                    }
                 }
+            }else{
+                V = vectorInput(n, "V");
+                MR = matrixInput(n, "MR");
+                MP = matrixInput(n, "MP");
             }
+
             result = d.func3(MP, MR, V);
             sleep(1000);
             printVect(result, "O");
@@ -47,15 +56,26 @@ public class T3 extends Thread {
         }
         System.out.println("]");
     }
-
-    public void printMatr(int[][] a, String name){
-        System.out.println(name + ":");
-        for(int i = 0; i < a.length; i++){
-            System.out.print("[");
-            for(int j = 0; j < a.length; j++) {
-                System.out.print(a[i][j] + " ");
-            }
-            System.out.println("]");
+    public int[] vectorInput(int n, String name) {
+        int[] vector = new int[n];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i < n ; i++){
+            System.out.printf("Input vector element #%d in vector %s %n", i, name);
+            vector[i] = sc.nextInt();
         }
+        return vector;
+    }
+
+    public int[][] matrixInput(int n, String name) {
+        int[][] matrix = new int[n][n];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i < n ; i++){
+            for (int j = 0; j < n ;
+                 j++){
+                System.out.printf("Input matrix element #[%d][%d] in matrix %s%n", i, j, name);
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+        return matrix;
     }
 }
